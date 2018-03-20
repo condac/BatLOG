@@ -63,7 +63,8 @@ public class NewBatteryActivity extends AppCompatActivity  {
     private EditText mManufacturerView;
     private EditText mModelView;
     private EditText mGroupView;
-    private Spinner spinner1;
+    private Spinner spinnerGroup;
+
     List<String> spinnerArray;
     StuffPacker stuffPack;
 
@@ -75,7 +76,7 @@ public class NewBatteryActivity extends AppCompatActivity  {
 
         Intent intent = getIntent();
 
-        stuffPack = (StuffPacker) intent.getSerializableExtra("stuffpack");
+        stuffPack = StuffPacker.getInstance();
 
 
 
@@ -91,8 +92,10 @@ public class NewBatteryActivity extends AppCompatActivity  {
         mLayout = findViewById(R.id.new_bat_form);
         mIdView.setText(""+ getNewID());
 
-        spinner1 = (Spinner) findViewById(R.id.group_spinner);
-        spinner1.setOnItemSelectedListener(new ItemSelectedListener());
+
+
+        spinnerGroup = (Spinner) findViewById(R.id.group_spinner);
+        spinnerGroup.setOnItemSelectedListener(new ItemSelectedListener());
 
 
 
@@ -106,7 +109,7 @@ public class NewBatteryActivity extends AppCompatActivity  {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner1.setAdapter(adapter);
+        spinnerGroup.setAdapter(adapter);
 
 
 
@@ -150,10 +153,10 @@ public class NewBatteryActivity extends AppCompatActivity  {
     public class ItemSelectedListener implements AdapterView.OnItemSelectedListener {
 
         //get strings of first item
-        String firstItem = String.valueOf(spinner1.getSelectedItem());
+        String firstItem = String.valueOf(spinnerGroup.getSelectedItem());
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            if (firstItem.equals(String.valueOf(spinner1.getSelectedItem()))) {
+            if (firstItem.equals(String.valueOf(spinnerGroup.getSelectedItem()))) {
                 // ToDo when first item is selected
             } else {
                 Toast.makeText(parent.getContext(),
@@ -291,7 +294,7 @@ public class NewBatteryActivity extends AppCompatActivity  {
         Log.i("input make", make);
         String model = isNotEmpty(mModelView.getText().toString(), "empty");
         Log.i("input model", model);
-        String group = isNotEmpty(String.valueOf(spinner1.getSelectedItem()), "0");
+        String group = isNotEmpty(String.valueOf(spinnerGroup.getSelectedItem()), "0");
         int groupId = stuffPack.batGroup.getIdFromName(group);
         Log.i("input group", "int:"+groupId);
 

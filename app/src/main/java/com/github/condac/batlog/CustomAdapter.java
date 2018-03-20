@@ -54,8 +54,6 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Log.d("getView i", "="+i);
-        Log.d("getView batterylist[i]", "="+batteryList.get(i));
 
         view = inflter.inflate(R.layout.activity_listview, null);
         TextView id = (TextView) view.findViewById(R.id.textView_id);
@@ -76,6 +74,7 @@ public class CustomAdapter extends BaseAdapter {
 
                 Intent intent = new Intent(context, CycleActivity.class);
                 intent.putExtra("KEY-ID", batteryList.get(i ));
+                intent.putExtra("stuffpack", stuffPack);
                 context.startActivity(intent);
                 //Intent intent = new Intent(context,MainActivity.class);
                 //context.startActivity(intent);
@@ -83,78 +82,21 @@ public class CustomAdapter extends BaseAdapter {
         });
 
         //String str = getBatteryString(batteryList.get(i));
-        Log.d("read batterys", batteryList.get(i));
-        Battery bat = new Battery(batteryList.get(i));
 
+        //Battery bat = new Battery(batteryList.get(i));
 
-        id.setText(bat.getIdString());
-        mah.setText(bat.getmAh()+"mAh");
-        name.setText(bat.getName());
-        volt.setText(bat.getVolt()+"V");
-        cycles.setText(bat.getCycles()+"cycles");
-        group.setText(stuffPack.batGroup.getNameFromId(bat.getGroupInt()));
+        int batIndex = i;//stuffPack.getBatteryIndexById(i+"");
+
+        id.setText(stuffPack.batteryList.get(batIndex).getIdString());
+        mah.setText(stuffPack.batteryList.get(batIndex).getmAh()+"mAh");
+        name.setText(stuffPack.batteryList.get(batIndex).getName());
+        volt.setText(stuffPack.batteryList.get(batIndex).getVolt()+"V");
+        cycles.setText(stuffPack.batteryList.get(batIndex).getCycles()+"cycles");
+        group.setText(stuffPack.batGroup.getNameFromId(stuffPack.batteryList.get(batIndex).getGroupInt()));
 
         return view;
     }
 
-    public String getBatteryString(String inId) {
-        String out = "";
-        int cycles = 0;
 
-        File root = new File(Environment.getExternalStorageDirectory(), "BatLOG");
-        File batteries = new File(root, "Batteries");
-        File idDir = new File(batteries, inId);
-        File file = new File(idDir, "info.txt");
-        File fileCycles = new File(idDir, "cycles.csv");
-
-        if (fileCycles.exists()) {
-            FileInputStream is;
-            BufferedReader reader;
-            try {
-                is = new FileInputStream(fileCycles);
-                reader = new BufferedReader(new InputStreamReader(is));
-                String line = null;
-                line = reader.readLine();
-                while (line != null) {
-                    line = reader.readLine();
-                    cycles++;
-                }
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }else {
-            cycles = 0;
-        }
-
-        if (file.exists()) {
-            FileInputStream is;
-            BufferedReader reader;
-            try {
-                is = new FileInputStream(file);
-                reader = new BufferedReader(new InputStreamReader(is));
-                String line = null;
-                line = reader.readLine();
-                out = line;
-                Log.d("getBatteryString", out);
-
-                out = out + ";"+cycles;
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-
-
-        }
-        return out;
-    }
 
 }

@@ -1,5 +1,6 @@
 package com.github.condac.batlog;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +13,15 @@ public class CycleActivity extends AppCompatActivity {
     private TextView mChargedView;
     private TextView mDischargedView;
     private TextView mCapacityView;
+    StuffPacker stuffPack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cycle);
+
+        Intent intent = getIntent();
+        stuffPack = StuffPacker.getInstance();
 
         mNameView = (TextView) findViewById(R.id.id_cycle_name);
         mChargedView = (TextView) findViewById(R.id.id_cycle_charged);
@@ -25,9 +30,10 @@ public class CycleActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra("KEY-ID");
         Log.d("KEY-ID", "banan"+id);
 
-        Battery tempBat = new Battery(id);
 
-        mNameView.setText("ID:"+tempBat.getIdString()+" Name:"+ tempBat.getName());
+        int batIndex = stuffPack.getBatteryIndexById(id);
+
+        mNameView.setText("ID:"+stuffPack.batteryList.get(batIndex).getIdString()+" Name:"+ stuffPack.batteryList.get(batIndex).getName());
 
         Button okButton = (Button) findViewById(R.id.id_cycle_okButton);
         okButton.setTag(id);
@@ -35,15 +41,16 @@ public class CycleActivity extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stuffPack = StuffPacker.getInstance();
                 String id = (String)view.getTag();
+                int batIndex = stuffPack.getBatteryIndexById(id);
 
-                Battery tempBat = new Battery(id);
 
                 String charge = isNotEmpty(mChargedView.getText().toString(), "-");
                 String discharge = isNotEmpty(mDischargedView.getText().toString(), "-");
                 String capacity = isNotEmpty(mCapacityView.getText().toString(), "-");
 
-                tempBat.batteryAddCycle(charge, discharge, capacity);
+                stuffPack.batteryList.get(batIndex).batteryAddCycle(charge, discharge, capacity);
 
                 finish();
             }

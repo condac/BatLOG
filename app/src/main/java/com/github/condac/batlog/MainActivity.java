@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity
 
         mkFolder("BatLOG"); // create permissions to read files in external storage
 
-        stuffPack = new StuffPacker();
+        stuffPack = StuffPacker.getInstance();
 
         Log.d("initalized stuffpack", "group1:"+stuffPack.batGroup.getNameFromId(1) );
 
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-
+        stuffPack = StuffPacker.getInstance();
         Log.d("resume", "onressume!!!!!!!!!!!!!!!!!!!!!1");
         getBatteryList();
         simpleList = (ListView) findViewById(R.id.bat_list_view);
@@ -200,8 +200,11 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_edit) {
+            Intent intent = new Intent(MainActivity.this, EditBatActivity.class);
+            intent.putExtra("stuffpack", stuffPack);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_classes) {
+        } else if (id == R.id.nav_group) {
 
         } else if (id == R.id.nav_history) {
 
