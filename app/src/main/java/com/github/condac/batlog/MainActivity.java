@@ -1,7 +1,6 @@
-package com.example.burns.batlog;
+package com.github.condac.batlog;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     String countryList[] = {"India", "China", "australia", "Portugle", "America", "NewZealand"};
     int flags[] = {R.drawable.ic_png_logo_web, R.drawable.ic_logotest, R.drawable.ic_logotest, R.drawable.ic_logotest, R.drawable.ic_logotest, R.drawable.ic_logotest};
 
+    StuffPacker stuffPack;
 
     List<String> batteryList = new ArrayList<String>();
 
@@ -122,13 +122,18 @@ public class MainActivity extends AppCompatActivity
 
         mkFolder("BatLOG"); // create permissions to read files in external storage
 
+        stuffPack = new StuffPacker();
+
+        Log.d("initalized stuffpack", "group1:"+stuffPack.batGroup.getNameFromId(1) );
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "New Battery", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "New Battery", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
                 Intent intent = new Intent(MainActivity.this, NewBatteryActivity.class);
+                intent.putExtra("stuffpack", stuffPack);
                 startActivity(intent);
             }
         });
@@ -150,7 +155,7 @@ public class MainActivity extends AppCompatActivity
         Log.d("resume", "onressume!!!!!!!!!!!!!!!!!!!!!1");
         getBatteryList();
         simpleList = (ListView) findViewById(R.id.bat_list_view);
-        CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, batteryList, flags);
+        CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, batteryList, flags, stuffPack);
         simpleList.setAdapter(customAdapter);
     }
 

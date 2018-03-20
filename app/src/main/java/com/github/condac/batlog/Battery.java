@@ -1,4 +1,4 @@
-package com.example.burns.batlog;
+package com.github.condac.batlog;
 
 /**
  * Created by burns on 3/20/18.
@@ -7,12 +7,6 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,11 +16,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
@@ -37,7 +26,7 @@ public class Battery {
 
 
     private String id = "0";
-    private String batclass = "0";
+    private int group = 0;
     private String name = "noname";
     private String mah = "noname";
     private String volt = "noname";
@@ -57,15 +46,17 @@ public class Battery {
 
     }
 
-    public Battery(String id, String name, String mah, String volt, String date, String manufacturer, String model) {
+    public Battery(String id, String name, String mah, String volt, String date, String manufacturer, String model, int group) {
         this.id = id;
         this.name = name;
         this.mah = mah;
         this.volt = volt;
         this.date = date;
-        this.batclass = "0"; // not implemented
+        this.group = group;
+
         this.model = model;
         this.manufacturer = manufacturer;
+
     }
 
     public void writeJSON() {
@@ -170,6 +161,7 @@ public class Battery {
                 this.volt = tempbat.volt;
                 this.manufacturer = tempbat.manufacturer;
                 this.model = tempbat.model;
+                this.group = tempbat.group;
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -255,5 +247,13 @@ public class Battery {
     }
     public void setId(String idIn) {
         this.id = idIn;
+    }
+
+    public String getGroupName() {
+        return ""+group;
+    }
+
+    public int getGroupInt() {
+        return group;
     }
 }

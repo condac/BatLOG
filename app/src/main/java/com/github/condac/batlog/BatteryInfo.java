@@ -1,4 +1,4 @@
-package com.example.burns.batlog;
+package com.github.condac.batlog;
 
 import java.util.ArrayList;
 import java.util.List;

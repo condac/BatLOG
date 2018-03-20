@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.burns.batlog.CycleActivity">
+    tools:context="com.github.condac.batlog.CycleActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,13 +15,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/editText2"
+            <TextView
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Add charge cycle to battery" />
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="Add charge cycle to battery"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/id_cycle_name"
@@ -29,13 +30,12 @@
                 android:layout_height="wrap_content"
                 android:text="Name of battery" />
 
-            <EditText
-                android:id="@+id/editText3"
+            <TextView
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Enter one of the following fields:" />
+                android:text="Enter one of the following fields:"
+                android:textSize="18sp" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

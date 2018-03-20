@@ -1,18 +1,11 @@
-package com.example.burns.batlog;
+package com.github.condac.batlog;
 
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 public class CycleActivity extends AppCompatActivity {
     private TextView mNameView;
@@ -32,7 +25,9 @@ public class CycleActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra("KEY-ID");
         Log.d("KEY-ID", "banan"+id);
 
-        mNameView.setText("testid"+id);
+        Battery tempBat = new Battery(id);
+
+        mNameView.setText("ID:"+tempBat.getIdString()+" Name:"+ tempBat.getName());
 
         Button okButton = (Button) findViewById(R.id.id_cycle_okButton);
         okButton.setTag(id);

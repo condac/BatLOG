@@ -1,48 +1,40 @@
-package com.example.burns.batlog;
+package com.github.condac.batlog;
 /**
  * Created by burns on 3/19/18.
  */
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Environment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.zip.Inflater;
-
-import static android.os.ParcelFileDescriptor.MODE_APPEND;
 
 public class CustomAdapter extends BaseAdapter {
     Context context;
     List<String> batteryList;
     int flags[];
     LayoutInflater inflter;
+    StuffPacker stuffPack;
 
-    public CustomAdapter(Context applicationContext, List<String> batteryList, int[] flags) {
+    public CustomAdapter(Context applicationContext, List<String> batteryList, int[] flags, StuffPacker inputStuff) {
         this.context = applicationContext;
         this.batteryList = batteryList;
         this.flags = flags;
         inflter = (LayoutInflater.from(applicationContext));
+        this.stuffPack = inputStuff;
     }
 
     @Override
@@ -71,6 +63,7 @@ public class CustomAdapter extends BaseAdapter {
         TextView name = (TextView) view.findViewById(R.id.textView_name);
         TextView volt = (TextView) view.findViewById(R.id.textView_volt);
         TextView cycles = (TextView) view.findViewById(R.id.textView_cycles);
+        TextView group = (TextView) view.findViewById(R.id.textView_group);
 
         Button button= (Button) view.findViewById(R.id.textView_button_plus);
         button.setTag(i);
@@ -99,6 +92,7 @@ public class CustomAdapter extends BaseAdapter {
         name.setText(bat.getName());
         volt.setText(bat.getVolt()+"V");
         cycles.setText(bat.getCycles()+"cycles");
+        group.setText(stuffPack.batGroup.getNameFromId(bat.getGroupInt()));
 
         return view;
     }

@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.burns.batlog">
+    package="com.github.condac.batlog">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_png_logo"
@@ -29,11 +25,9 @@
         <activity
             android:name=".NewBatteryActivity"
             android:label="@string/title_activity_new_battery" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
         <activity android:name=".activity_listview" />
-        <activity android:name=".CycleActivity"></activity>
+        <activity android:name=".CycleActivity" />
+        <activity android:name=".GroupActivity"></activity>
     </application>
 
 </manifest>

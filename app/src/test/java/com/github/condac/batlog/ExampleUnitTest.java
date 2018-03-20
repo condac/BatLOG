@@ -1,4 +1,4 @@
-package com.example.burns.batlog;
+package com.github.condac.batlog;
 
 import org.junit.Test;
 

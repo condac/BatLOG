@@ -1,4 +1,4 @@
-package com.example.burns.batlog;
+package com.github.condac.batlog;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

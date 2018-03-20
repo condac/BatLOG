@@ -1,9 +1,6 @@
-package com.example.burns.batlog;
+package com.github.condac.batlog;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -14,48 +11,33 @@ import android.content.pm.PackageManager;
 
 
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.io.File;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import android.util.Log;
+import android.widget.Spinner;
 import android.widget.Toast;
-
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**
  * Create new battery dialog.
@@ -71,18 +53,19 @@ public class NewBatteryActivity extends AppCompatActivity  {
 
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    //private AutoCompleteTextView mEmailView;
+
     private EditText mNameView;
     private EditText mIdView;
     private EditText mMahView;
     private EditText mVoltView;
     private EditText mDateView;
-    private View mProgressView;
-    private View mLoginFormView;
     private Calendar myCalendar = Calendar.getInstance();
     private EditText mManufacturerView;
     private EditText mModelView;
+    private EditText mGroupView;
+    private Spinner spinner1;
+    List<String> spinnerArray;
+    StuffPacker stuffPack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +73,11 @@ public class NewBatteryActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_new_battery);
         // Set up the login form.
 
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        Intent intent = getIntent();
+
+        stuffPack = (StuffPacker) intent.getSerializableExtra("stuffpack");
+
+
 
         mNameView = (EditText) findViewById(R.id.name);
         mIdView = (EditText) findViewById(R.id.id);
@@ -99,12 +86,29 @@ public class NewBatteryActivity extends AppCompatActivity  {
         mDateView = (EditText) findViewById(R.id.date);
         mManufacturerView = (EditText) findViewById(R.id.manufacturer);
         mModelView = (EditText) findViewById(R.id.model);
+        mGroupView = (EditText) findViewById(R.id.model);
+
         mLayout = findViewById(R.id.new_bat_form);
         mIdView.setText(""+ getNewID());
 
+        spinner1 = (Spinner) findViewById(R.id.group_spinner);
+        spinner1.setOnItemSelectedListener(new ItemSelectedListener());
 
 
-        //EditText edittext= (EditText) findViewById(R.id.Birthday);
+
+        // you need to have a list of data that you want the spinner to display
+        spinnerArray =  stuffPack.batGroup.getStringList();
+        Log.d("SpinnerArray", "hej" + spinnerArray.get(1) );
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+
+        //ArrayAdapter<User> dataAdapter = new ArrayAdapter<User>(this, android.R.layout.simple_spinner_item, users);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner1.setAdapter(adapter);
+
+
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -130,27 +134,41 @@ public class NewBatteryActivity extends AppCompatActivity  {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-        //mkFolder("testfolder");
 
-        /*if (storagePermitted(this) ) {
-            Log.i("test storage", "true");
-        }else {
-            Log.i("test storage", "false");
-        }*/
+
         Button mEmailSignInButton = (Button) findViewById(R.id.create_new_bat_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 createBattery();
-                //Intent intent = new Intent(context,MainActivity.class);
-                //context.startActivity(intent);
+
             }
         });
 
-        //mLoginFormView = findViewById(R.id.new_bat_form);
-        //mProgressView = findViewById(R.id.login_progress);
-    }
 
+    }
+    public class ItemSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        //get strings of first item
+        String firstItem = String.valueOf(spinner1.getSelectedItem());
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            if (firstItem.equals(String.valueOf(spinner1.getSelectedItem()))) {
+                // ToDo when first item is selected
+            } else {
+                Toast.makeText(parent.getContext(),
+                        "You have selected : " + parent.getItemAtPosition(pos).toString(),
+                        Toast.LENGTH_LONG).show();
+                // Todo when item is selected by the user
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg) {
+
+        }
+
+    }
     private void updateLabel() {
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -273,8 +291,14 @@ public class NewBatteryActivity extends AppCompatActivity  {
         Log.i("input make", make);
         String model = isNotEmpty(mModelView.getText().toString(), "empty");
         Log.i("input model", model);
+        String group = isNotEmpty(String.valueOf(spinner1.getSelectedItem()), "0");
+        int groupId = stuffPack.batGroup.getIdFromName(group);
+        Log.i("input group", "int:"+groupId);
 
-        Battery newBattery = new Battery(id, name, mah, volt, date, make, model);
+
+
+
+        Battery newBattery = new Battery(id, name, mah, volt, date, make, model, groupId);
         newBattery.writeJSON();
 
         //createExternalStoragePrivateFile( id , id+";"+name+";"+mah+";"+volt+";"+date);
