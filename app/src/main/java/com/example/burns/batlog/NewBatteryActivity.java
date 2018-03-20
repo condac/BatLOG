@@ -6,8 +6,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+
+
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -33,6 +38,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -40,8 +46,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.io.File;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 
 import android.util.Log;
 import android.widget.Toast;
@@ -52,7 +61,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
  * Create new battery dialog.
  */
 public class NewBatteryActivity extends AppCompatActivity  {
-
+    Context context;
     /**
      * Id to identity WRITE_EXTERNAL_STORAGE permission request.
      */
@@ -71,7 +80,7 @@ public class NewBatteryActivity extends AppCompatActivity  {
     private EditText mDateView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private Calendar myCalendar = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,26 +97,62 @@ public class NewBatteryActivity extends AppCompatActivity  {
         mLayout = findViewById(R.id.new_bat_form);
         mIdView.setText(""+ getNewID());
 
-        mkFolder("testfolder");
 
-        if (storagePermitted(this) ) {
+
+        //EditText edittext= (EditText) findViewById(R.id.Birthday);
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+        };
+
+        mDateView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(NewBatteryActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        //mkFolder("testfolder");
+
+        /*if (storagePermitted(this) ) {
             Log.i("test storage", "true");
         }else {
             Log.i("test storage", "false");
-        }
+        }*/
         Button mEmailSignInButton = (Button) findViewById(R.id.create_new_bat_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 createBattery();
+                //Intent intent = new Intent(context,MainActivity.class);
+                //context.startActivity(intent);
             }
         });
 
-        mLoginFormView = findViewById(R.id.new_bat_form);
+        //mLoginFormView = findViewById(R.id.new_bat_form);
         //mProgressView = findViewById(R.id.login_progress);
     }
 
+    private void updateLabel() {
+        String myFormat = "yyyy-MM-dd"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
+        mDateView.setText(sdf.format(myCalendar.getTime()));
+        //mDateView.setText(myCalendar.getTime().toString());
+    }
 
 
     /* Checks if external storage is available for read and write */
@@ -140,7 +185,8 @@ public class NewBatteryActivity extends AppCompatActivity  {
 
         File root = new File(Environment.getExternalStorageDirectory(), "BatLOG");
         File batteries = new File(root, "Batteries");
-        File file = new File(batteries, fileName+".txt");
+        File idDir = new File(batteries, fileName);
+        File file = new File(idDir, "info.txt");
 
 
         if (!root.mkdirs()) {
@@ -149,7 +195,9 @@ public class NewBatteryActivity extends AppCompatActivity  {
         if (!batteries.mkdirs()) {
             Log.e("mkdir batteries", "Directory not created");
         }
-
+        if (!idDir.mkdirs()) {
+            Log.e("mkdir idDir", "Directory not created");
+        }
 
         Log.i("File info:", file.getAbsolutePath());
         try {
@@ -185,7 +233,8 @@ public class NewBatteryActivity extends AppCompatActivity  {
         // storage is not currently mounted this will fail.
         File root = new File(Environment.getExternalStorageDirectory(), "BatLOG");
         File batteries = new File(root, "Batteries");
-        File file = new File(batteries, fileName+".txt");
+        File idDir = new File(batteries, fileName);
+        File file = new File(idDir, "info.txt");
 
 
         if (file != null) {
@@ -203,16 +252,17 @@ public class NewBatteryActivity extends AppCompatActivity  {
 
 
         // Store values at the time of the login attempt.
-        String name = mNameView.getText().toString();
+        String name = isNotEmpty(mNameView.getText().toString(), "noname");
         Log.i("input name", name);
-        String id = mIdView.getText().toString();
+        String id = isNotEmpty(mIdView.getText().toString(), "wrongid");
         Log.i("input id", id);
-        String mah = mMahView.getText().toString();
+        String mah = isNotEmpty(mMahView.getText().toString(), "0");
         Log.i("input mAh", mah);
-        String volt = mVoltView.getText().toString();
+        String volt = isNotEmpty(mVoltView.getText().toString(), "0");
         Log.i("input Volt", volt);
-        String date = mDateView.getText().toString();
+        String date = isNotEmpty(mDateView.getText().toString(), "0");
         Log.i("input date", date);
+
 
 
         createExternalStoragePrivateFile( id , id+";"+name+";"+mah+";"+volt+";"+date);
@@ -239,19 +289,31 @@ public class NewBatteryActivity extends AppCompatActivity  {
 
     private int getNewID() {
         //TODO: Read folders and find a unused number
-        boolean found = true;
-        int counter = 1;
-        while(found) {
-            if (hasExternalStoragePrivateFile(""+counter)) {
-                counter++;
-            } else {
-                found = false;
-                return counter;
+        if (isExternalStorageWritable()) {
+            boolean found = true;
+            int counter = 1;
+            while(found) {
+                if (hasExternalStoragePrivateFile(""+counter)) {
+                    counter++;
+                } else {
+                    found = false;
+                    return counter;
+                }
             }
+            return 1;
         }
-        return -1;
+
+        return 0;
     }
 
+    private String isNotEmpty(String inString, String replace) {
+        if(inString.equals("")) {
+            return replace;
+        } else {
+            return inString;
+        }
+
+    }
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");

@@ -31,8 +31,13 @@
                     android:id="@+id/id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="id number (uniqe)" />
+                    android:hint="id number (uniqe)"
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
+
+            <ExpandableListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -42,7 +47,8 @@
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="name for your battery" />
+                    android:hint="name for your battery"
+                    android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -53,7 +59,8 @@
                     android:id="@+id/mah"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="mAh as stated on your battery" />
+                    android:hint="mAh as stated on your battery"
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -64,7 +71,8 @@
                     android:id="@+id/volt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Volt" />
+                    android:hint="Volt"
+                    android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -76,7 +84,9 @@
                     android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="date when bought" />
+                    android:hint="date when bought"
+                    android:inputType="date" />
+
             </android.support.design.widget.TextInputLayout>
 
             <Button
