@@ -81,6 +81,9 @@ public class NewBatteryActivity extends AppCompatActivity  {
     private View mProgressView;
     private View mLoginFormView;
     private Calendar myCalendar = Calendar.getInstance();
+    private EditText mManufacturerView;
+    private EditText mModelView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +97,8 @@ public class NewBatteryActivity extends AppCompatActivity  {
         mMahView = (EditText) findViewById(R.id.mah);
         mVoltView = (EditText) findViewById(R.id.volt);
         mDateView = (EditText) findViewById(R.id.date);
+        mManufacturerView = (EditText) findViewById(R.id.manufacturer);
+        mModelView = (EditText) findViewById(R.id.model);
         mLayout = findViewById(R.id.new_bat_form);
         mIdView.setText(""+ getNewID());
 
@@ -222,7 +227,8 @@ public class NewBatteryActivity extends AppCompatActivity  {
         // storage is not currently mounted this will fail.
         File root = new File(Environment.getExternalStorageDirectory(), "BatLOG");
         File batteries = new File(root, "Batteries");
-        File file = new File(batteries, fileName+".txt");
+        File idDir = new File(batteries, fileName);
+        File file = new File(idDir, "info.json");
         if (file != null) {
             file.delete();
         }
@@ -234,7 +240,7 @@ public class NewBatteryActivity extends AppCompatActivity  {
         File root = new File(Environment.getExternalStorageDirectory(), "BatLOG");
         File batteries = new File(root, "Batteries");
         File idDir = new File(batteries, fileName);
-        File file = new File(idDir, "info.txt");
+        File file = new File(idDir, "info.json");
 
 
         if (file != null) {
@@ -263,9 +269,15 @@ public class NewBatteryActivity extends AppCompatActivity  {
         String date = isNotEmpty(mDateView.getText().toString(), "0");
         Log.i("input date", date);
 
+        String make = isNotEmpty(mManufacturerView.getText().toString(), "empty");
+        Log.i("input make", make);
+        String model = isNotEmpty(mModelView.getText().toString(), "empty");
+        Log.i("input model", model);
 
+        Battery newBattery = new Battery(id, name, mah, volt, date, make, model);
+        newBattery.writeJSON();
 
-        createExternalStoragePrivateFile( id , id+";"+name+";"+mah+";"+volt+";"+date);
+        //createExternalStoragePrivateFile( id , id+";"+name+";"+mah+";"+volt+";"+date);
 
 
         boolean cancel = false;

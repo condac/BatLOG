@@ -62,6 +62,8 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        Log.d("getView i", "="+i);
+        Log.d("getView batterylist[i]", "="+batteryList.get(i));
 
         view = inflter.inflate(R.layout.activity_listview, null);
         TextView id = (TextView) view.findViewById(R.id.textView_id);
@@ -78,31 +80,25 @@ public class CustomAdapter extends BaseAdapter {
                 int i = (int)view.getTag();
                 view = inflter.inflate(R.layout.activity_listview, null);
                 // click handling code
-                TextView cycles = (TextView) view.findViewById(R.id.textView_cycles);
-
-                String str = getBatteryString(batteryList.get(i ) );
-                Log.d("button"+i, ""+str);
-                String[] items =str.split(";");
-
-
 
                 Intent intent = new Intent(context, CycleActivity.class);
-                intent.putExtra("KEY-ID", items[0]);
+                intent.putExtra("KEY-ID", batteryList.get(i ));
                 context.startActivity(intent);
                 //Intent intent = new Intent(context,MainActivity.class);
                 //context.startActivity(intent);
             }
         });
 
-        String str = getBatteryString(batteryList.get(i));
-        Log.d("string", ""+str);
-        String[] items =str.split(";");
-        Log.d("list size", ""+items.length);
-        id.setText(items[0]);
-        mah.setText(items[2]+"mAh");
-        name.setText(items[1]);
-        volt.setText(items[3]+"V");
-        cycles.setText(items[5]+"cycles");
+        //String str = getBatteryString(batteryList.get(i));
+        Log.d("read batterys", batteryList.get(i));
+        Battery bat = new Battery(batteryList.get(i));
+
+
+        id.setText(bat.getIdString());
+        mah.setText(bat.getmAh()+"mAh");
+        name.setText(bat.getName());
+        volt.setText(bat.getVolt()+"V");
+        cycles.setText(bat.getCycles()+"cycles");
 
         return view;
     }

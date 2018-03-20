@@ -16,6 +16,9 @@ import java.io.OutputStreamWriter;
 
 public class CycleActivity extends AppCompatActivity {
     private TextView mNameView;
+    private TextView mChargedView;
+    private TextView mDischargedView;
+    private TextView mCapacityView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +26,13 @@ public class CycleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cycle);
 
         mNameView = (TextView) findViewById(R.id.id_cycle_name);
-
+        mChargedView = (TextView) findViewById(R.id.id_cycle_charged);
+        mDischargedView = (TextView) findViewById(R.id.id_cycle_discharge);
+        mCapacityView = (TextView) findViewById(R.id.id_cycle_total);
         String id = getIntent().getStringExtra("KEY-ID");
-        Log.d("KEY-ID", id);
+        Log.d("KEY-ID", "banan"+id);
 
-        mNameView.setText(id);
+        mNameView.setText("testid"+id);
 
         Button okButton = (Button) findViewById(R.id.id_cycle_okButton);
         okButton.setTag(id);
@@ -37,47 +42,25 @@ public class CycleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String id = (String)view.getTag();
 
-                batteryAddCycle(id);
+                Battery tempBat = new Battery(id);
+
+                String charge = isNotEmpty(mChargedView.getText().toString(), "-");
+                String discharge = isNotEmpty(mDischargedView.getText().toString(), "-");
+                String capacity = isNotEmpty(mCapacityView.getText().toString(), "-");
+
+                tempBat.batteryAddCycle(charge, discharge, capacity);
+
                 finish();
             }
         });
     }
 
-    public void batteryAddCycle(String inId) {
-        // Create a path where we will place our private file on external
-        // storage.
-
-        File root = new File(Environment.getExternalStorageDirectory(), "BatLOG");
-        File batteries = new File(root, "Batteries");
-        File idDir = new File(batteries, inId);
-        File file = new File(idDir, "cycles.csv");
-
-
-        if (!root.mkdirs()) {
-            Log.e("mkdir", "Directory not created");
-        }
-        if (!batteries.mkdirs()) {
-            Log.e("mkdir batteries", "Directory not created");
+    private String isNotEmpty(String inString, String replace) {
+        if(inString.equals("")) {
+            return replace;
+        } else {
+            return inString;
         }
 
-
-        Log.i("File info:", file.getAbsolutePath());
-        try {
-
-            FileOutputStream fOut = new FileOutputStream(file, true);
-
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-
-            myOutWriter.append("cycle;100;200;300;");
-            myOutWriter.append("\n");
-
-            myOutWriter.close();
-
-            fOut.flush();
-            fOut.close();
-        }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed in createExternalStoragePrivateFile: " + e.toString());
-        }
     }
 }
