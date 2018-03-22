@@ -103,7 +103,7 @@ public class BatteryGroup implements Serializable {
             newList.add( new GroupObject(3, "18650"));
             this.groupList = newList;
         }
-        writeJSON();
+        writeJSON(); // this will NOT be called if a group.json exists, return statement in code above stops function to get here unless new file is needed
     }
 
     public void writeJSON() {
@@ -149,7 +149,8 @@ public class BatteryGroup implements Serializable {
 
     }
     public void addGroup(int id , String name) {
-
+        groupList.add( new GroupObject(id, name));
+        writeJSON();
     }
 
     public String getNameFromId(int idIn) {
@@ -176,5 +177,20 @@ public class BatteryGroup implements Serializable {
             }
         }
         return 0;
+    }
+
+    public int getFirstFreeId() {
+        for (int i=1;i<100;i++) {
+            Boolean exists = false;
+            for (GroupObject group : groupList ) {
+                if (group.id == i) {
+                    exists = true;
+                }
+            }
+            if (!exists) {
+                return i;
+            }
+        }
+        return 100;
     }
 }

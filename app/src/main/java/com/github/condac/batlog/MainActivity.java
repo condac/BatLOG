@@ -133,6 +133,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_group) {
+            Intent intent = new Intent(MainActivity.this, GroupActivity.class);
+
+            startActivity(intent);
 
         } else if (id == R.id.nav_history) {
 
