@@ -130,7 +130,16 @@ public class EditBatActivity extends AppCompatActivity {
         mVoltView.setText(currentBattery.getVolt());
         mCyclesView.setText(currentBattery.getCycles());
 
-        spinnerGroup.setSelection(currentBattery.getGroupInt());
+        String groupString = stuffPack.batGroup.getNameFromId(currentBattery.getGroupInt());
+        Log.d("EditBatterygroup", "groupname: "+groupString);
+
+        for (int i=0; i<spinnerArray.size(); i++) {
+            Log.d(spinnerArray.get(i),groupString);
+            if (spinnerArray.get(i).equals(groupString)) {
+                spinnerGroup.setSelection(i);
+            }
+        }
+        //spinnerGroup.setSelection(currentBattery.getGroupInt());
 
     }
     public class ItemSelectedListener implements AdapterView.OnItemSelectedListener {

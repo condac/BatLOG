@@ -1,6 +1,6 @@
 package com.github.condac.batlog;
 
-import android.app.Application;
+
 import android.os.Environment;
 import android.util.Log;
 
@@ -9,13 +9,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by burns on 3/20/18.
- */
+
 
 public class StuffPacker implements Serializable {
 
-    // THis class creates all that i want to have globaly avaible and i pass the stuffpacker into all functions.
+    // THis class creates all that i want to have globally available and i pass the stuffpacker into all functions.
     private static StuffPacker instance;
 
     public List<Battery> batteryList;

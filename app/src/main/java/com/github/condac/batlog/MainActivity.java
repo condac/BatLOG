@@ -33,11 +33,134 @@ public class MainActivity extends AppCompatActivity
 
     StuffPacker stuffPack;
 
-    List<String> batteryList = new ArrayList<String>();
+    //List<String> batteryList = new ArrayList<String>();
 
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        mkFolder("BatLOG"); // create permissions to read files in external storage
+
+        stuffPack = StuffPacker.getInstance();
+
+        Log.d("initalized stuffpack", "group1:"+stuffPack.batGroup.getNameFromId(1) );
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "New Battery", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                Intent intent = new Intent(MainActivity.this, NewBatteryActivity.class);
+                intent.putExtra("stuffpack", stuffPack);
+                startActivity(intent);
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        stuffPack = StuffPacker.getInstance();
+        Log.d("resume", "onressume!!!!!!!!!!!!!!!!!!!!!1");
+        stuffPack.createBatteryList();
+        simpleList = (ListView) findViewById(R.id.bat_list_view);
+        CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, stuffPack.batteryListStringIndex, stuffPack);
+        simpleList.setAdapter(customAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_edit) {
+            Intent intent = new Intent(MainActivity.this, EditBatActivity.class);
+            intent.putExtra("stuffpack", stuffPack);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_group) {
+
+        } else if (id == R.id.nav_history) {
+
+        } else if (id == R.id.nav_location) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    /*public void getBatteryList() {
+
+
+        batteryList.clear();
+        File root = new File(Environment.getExternalStorageDirectory(), "BatLOG");
+        File directory = new File(root, "Batteries");
+        if (directory.exists()) {
+            File[] files = directory.listFiles();
+            Log.d("Files", "Size: "+ files.length);
+            for (int i = 0; i < files.length; i++) {
+                Log.d("Files", "FileName:" + files[i].getName());
+                batteryList.add(files[i].getName());
+            }
+        }
+
+    }*/
     public int mkFolder(String folderName){ // make a folder under Environment.DIRECTORY_DCIM
         String state = Environment.getExternalStorageState();
         if (!Environment.MEDIA_MOUNTED.equals(state)){
@@ -110,129 +233,6 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(MainActivity.this, "Permission Denied!", Toast.LENGTH_SHORT).show();
                 }
         }
-    }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        mkFolder("BatLOG"); // create permissions to read files in external storage
-
-        stuffPack = StuffPacker.getInstance();
-
-        Log.d("initalized stuffpack", "group1:"+stuffPack.batGroup.getNameFromId(1) );
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "New Battery", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-                Intent intent = new Intent(MainActivity.this, NewBatteryActivity.class);
-                intent.putExtra("stuffpack", stuffPack);
-                startActivity(intent);
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();  // Always call the superclass method first
-        stuffPack = StuffPacker.getInstance();
-        Log.d("resume", "onressume!!!!!!!!!!!!!!!!!!!!!1");
-        getBatteryList();
-        simpleList = (ListView) findViewById(R.id.bat_list_view);
-        CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, batteryList, stuffPack);
-        simpleList.setAdapter(customAdapter);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_edit) {
-            Intent intent = new Intent(MainActivity.this, EditBatActivity.class);
-            intent.putExtra("stuffpack", stuffPack);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_group) {
-
-        } else if (id == R.id.nav_history) {
-
-        } else if (id == R.id.nav_location) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    public void getBatteryList() {
-
-
-        batteryList.clear();
-        File root = new File(Environment.getExternalStorageDirectory(), "BatLOG");
-        File directory = new File(root, "Batteries");
-        if (directory.exists()) {
-            File[] files = directory.listFiles();
-            Log.d("Files", "Size: "+ files.length);
-            for (int i = 0; i < files.length; i++) {
-                Log.d("Files", "FileName:" + files[i].getName());
-                batteryList.add(files[i].getName());
-            }
-        }
-
-
     }
 
 }

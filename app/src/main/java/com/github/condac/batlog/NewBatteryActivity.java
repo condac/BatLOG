@@ -2,7 +2,6 @@ package com.github.condac.batlog;
 
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 
 
@@ -189,8 +188,7 @@ public class NewBatteryActivity extends AppCompatActivity  {
     /* Checks if external storage is available to at least read */
     public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+        if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             return true;
         }
         return false;
@@ -290,25 +288,8 @@ public class NewBatteryActivity extends AppCompatActivity  {
         Battery newBattery = new Battery(id, name, mah, volt, date, make, model, groupId);
         newBattery.writeJSON();
         stuffPack.createBatteryList();
-        //createExternalStoragePrivateFile( id , id+";"+name+";"+mah+";"+volt+";"+date);
 
 
-        boolean cancel = false;
-        View focusView = null;
-
-
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            //showProgress(true);
-            //mAuthTask = new UserLoginTask(email, password);
-            //mAuthTask.execute((Void) null);
-        }
         finish();
     }
 
