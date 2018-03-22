@@ -30,14 +30,14 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView simpleList;
-    String countryList[] = {"India", "China", "australia", "Portugle", "America", "NewZealand"};
-    int flags[] = {R.drawable.ic_png_logo_web, R.drawable.ic_logotest, R.drawable.ic_logotest, R.drawable.ic_logotest, R.drawable.ic_logotest, R.drawable.ic_logotest};
 
     StuffPacker stuffPack;
 
     List<String> batteryList = new ArrayList<String>();
 
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+
+
     public int mkFolder(String folderName){ // make a folder under Environment.DIRECTORY_DCIM
         String state = Environment.getExternalStorageState();
         if (!Environment.MEDIA_MOUNTED.equals(state)){
@@ -82,13 +82,13 @@ public class MainActivity extends AppCompatActivity
             result = 2; // folder exist
         }else{
             try {
-                if (folder.mkdir()) {
+                /*if (folder.mkdir()) {
                     Log.d("myAppName", "folder created:" + folder.toString());
                     result = 1; // folder created
                 } else {
                     Log.d("myAppName", "creat folder fails:" + folder.toString());
                     result = 0; // creat folder fails
-                }
+                }*/
             }catch (Exception ecp){
                 ecp.printStackTrace();
             }
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity
         Log.d("resume", "onressume!!!!!!!!!!!!!!!!!!!!!1");
         getBatteryList();
         simpleList = (ListView) findViewById(R.id.bat_list_view);
-        CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, batteryList, flags, stuffPack);
+        CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, batteryList, stuffPack);
         simpleList.setAdapter(customAdapter);
     }
 

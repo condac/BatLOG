@@ -204,7 +204,7 @@ public class Battery implements Serializable {
             Log.d("BatteryAddCycle", "cycles before:"+cycles);
             cycles++;
 
-            myOutWriter.append("cycle;timestamp;"+cycles+";"+charge+";"+discharge+";"+capacity+";");
+            myOutWriter.append("cycle;"+System.currentTimeMillis()+";"+cycles+";"+charge+";"+discharge+";"+capacity+";");
             myOutWriter.append("\n");
 
             myOutWriter.close();

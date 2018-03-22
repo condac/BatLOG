@@ -82,7 +82,9 @@ public class StuffPacker implements Serializable {
 
     }
 
+    public void askForFileAccess() {
 
+    }
 
 
 }

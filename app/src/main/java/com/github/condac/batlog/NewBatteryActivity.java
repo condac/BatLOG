@@ -1,12 +1,11 @@
 package com.github.condac.batlog;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 
 
@@ -20,7 +19,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,7 +26,6 @@ import android.widget.EditText;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.io.File;
 import java.util.Locale;
@@ -43,13 +40,9 @@ import android.widget.Toast;
  * Create new battery dialog.
  */
 public class NewBatteryActivity extends AppCompatActivity  {
-    Context context;
     /**
      * Id to identity WRITE_EXTERNAL_STORAGE permission request.
      */
-    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 0;
-
-    private View mLayout;
 
 
     // UI references.
@@ -62,39 +55,39 @@ public class NewBatteryActivity extends AppCompatActivity  {
     private Calendar myCalendar = Calendar.getInstance();
     private EditText mManufacturerView;
     private EditText mModelView;
-    private EditText mGroupView;
     private Spinner spinnerGroup;
 
     List<String> spinnerArray;
     StuffPacker stuffPack;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_battery);
         // Set up the login form.
 
-        Intent intent = getIntent();
+
 
         stuffPack = StuffPacker.getInstance();
 
 
 
-        mNameView = (EditText) findViewById(R.id.name);
-        mIdView = (EditText) findViewById(R.id.id);
-        mMahView = (EditText) findViewById(R.id.mah);
-        mVoltView = (EditText) findViewById(R.id.volt);
-        mDateView = (EditText) findViewById(R.id.date);
-        mManufacturerView = (EditText) findViewById(R.id.manufacturer);
-        mModelView = (EditText) findViewById(R.id.model);
-        mGroupView = (EditText) findViewById(R.id.model);
+        mNameView =  findViewById(R.id.name);
+        mIdView =  findViewById(R.id.id);
+        mMahView =  findViewById(R.id.mah);
+        mVoltView =  findViewById(R.id.volt);
+        mDateView =  findViewById(R.id.date);
+        mManufacturerView =  findViewById(R.id.manufacturer);
+        mModelView =  findViewById(R.id.model);
 
-        mLayout = findViewById(R.id.new_bat_form);
+
+        //mLayout = findViewById(R.id.new_bat_form);
         mIdView.setText(""+ getNewID());
 
 
 
-        spinnerGroup = (Spinner) findViewById(R.id.group_spinner);
+        spinnerGroup = findViewById(R.id.group_spinner);
         spinnerGroup.setOnItemSelectedListener(new ItemSelectedListener());
 
 
@@ -103,9 +96,7 @@ public class NewBatteryActivity extends AppCompatActivity  {
         spinnerArray =  stuffPack.batGroup.getStringList();
         Log.d("SpinnerArray", "hej" + spinnerArray.get(1) );
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
-
-        //ArrayAdapter<User> dataAdapter = new ArrayAdapter<User>(this, android.R.layout.simple_spinner_item, users);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -139,7 +130,7 @@ public class NewBatteryActivity extends AppCompatActivity  {
         });
 
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.create_new_bat_button);
+        Button mEmailSignInButton = findViewById(R.id.create_new_bat_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,8 +177,10 @@ public class NewBatteryActivity extends AppCompatActivity  {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             return true;
+        } else {
+            return false;
         }
-        return false;
+
     }
 
     /* Checks if external storage is available to at least read */
@@ -303,7 +296,7 @@ public class NewBatteryActivity extends AppCompatActivity  {
 
         Battery newBattery = new Battery(id, name, mah, volt, date, make, model, groupId);
         newBattery.writeJSON();
-
+        stuffPack.createBatteryList();
         //createExternalStoragePrivateFile( id , id+";"+name+";"+mah+";"+volt+";"+date);
 
 

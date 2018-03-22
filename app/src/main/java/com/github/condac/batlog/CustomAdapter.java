@@ -25,14 +25,14 @@ import java.util.List;
 public class CustomAdapter extends BaseAdapter {
     Context context;
     List<String> batteryList;
-    int flags[];
+
     LayoutInflater inflter;
     StuffPacker stuffPack;
 
-    public CustomAdapter(Context applicationContext, List<String> batteryList, int[] flags, StuffPacker inputStuff) {
+    public CustomAdapter(Context applicationContext, List<String> batteryList, StuffPacker inputStuff) {
         this.context = applicationContext;
         this.batteryList = batteryList;
-        this.flags = flags;
+
         inflter = (LayoutInflater.from(applicationContext));
         this.stuffPack = inputStuff;
     }
@@ -84,7 +84,7 @@ public class CustomAdapter extends BaseAdapter {
         //String str = getBatteryString(batteryList.get(i));
 
         //Battery bat = new Battery(batteryList.get(i));
-
+        //Log.d("CustomAddapter", "BatINdex:" + i);
         int batIndex = i;//stuffPack.getBatteryIndexById(i+"");
 
         id.setText(stuffPack.batteryList.get(batIndex).getIdString());

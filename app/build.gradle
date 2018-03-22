@@ -8,7 +8,7 @@ android {
         applicationId 'com.github.burns.batlog'
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 3
+        versionCode 5
         versionName '0.0.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
