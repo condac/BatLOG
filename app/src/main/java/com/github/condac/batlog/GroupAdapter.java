@@ -6,6 +6,7 @@ package com.github.condac.batlog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,14 +64,16 @@ public class GroupAdapter extends BaseAdapter {
         TextView name = (TextView) view.findViewById(R.id.textView_group_name);
 
         Button button= (Button) view.findViewById(R.id.button_edit);
-        button.setTag(i);
+        button.setTag(stuffPack.batGroup.groupList.get(i).id);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Log.d("Button click" , "Edit button in groupview");
-                int i = (int)view.getTag();
-                Log.d("Button click" , "Edit button in groupview"+i);
 
+                int id = (int)view.getTag();
+                Log.d("Button click" , "Edit button in groupview"+id);
+                EditGroupDialog editGroupDialog = new EditGroupDialog();
+                editGroupDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), ""+id);
+                notifyDataSetChanged();
             }
         });
 

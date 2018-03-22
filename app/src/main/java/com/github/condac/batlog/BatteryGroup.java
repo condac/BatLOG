@@ -193,4 +193,15 @@ public class BatteryGroup implements Serializable {
         }
         return 100;
     }
+
+    public void editGroup(int id, String name) {
+        for (int i=0;i<groupList.size();i++) {
+            if (groupList.get(i).id == id) {
+                groupList.get(i).name = name;
+                writeJSON();
+                return;
+            }
+        }
+
+    }
 }

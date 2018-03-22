@@ -48,7 +48,10 @@ public class EditBatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         stuffPack = StuffPacker.getInstance();
 
-        selectedId = stuffPack.batteryListStringIndex.get(0);
+        if (stuffPack.batteryListStringIndex.size()>0) {
+            selectedId = stuffPack.batteryListStringIndex.get(0);
+        }
+
 
         mNameView = (EditText) findViewById(R.id.name);
         mIdView = (EditText) findViewById(R.id.id);
@@ -63,7 +66,7 @@ public class EditBatActivity extends AppCompatActivity {
         spinnerID = (Spinner) findViewById(R.id.spinner_id);
         spinnerID.setOnItemSelectedListener(new EditBatActivity.ItemSelectedListenerID());
         spinnerArrayID =  stuffPack.batteryListStringIndex;
-        Log.d("SpinnerArrayID", "hej" + spinnerArrayID.get(1) );
+
         ArrayAdapter<String> adapterID = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArrayID);
         adapterID.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerID.setAdapter(adapterID);
@@ -73,7 +76,7 @@ public class EditBatActivity extends AppCompatActivity {
 
         // you need to have a list of data that you want the spinner to display
         spinnerArray =  stuffPack.batGroup.getStringList();
-        Log.d("SpinnerArray", "hej" + spinnerArray.get(1) );
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerGroup.setAdapter(adapter);
