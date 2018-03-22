@@ -111,7 +111,7 @@ public class BatteryGroup implements Serializable {
         String json = gson.toJson(this);
 
 
-        Log.d("BatteryGroup", "ReadJSON");
+        Log.d("BatteryGroup", "WriteJSON");
 
         Log.d("JSON", json);
 
@@ -146,8 +146,10 @@ public class BatteryGroup implements Serializable {
     }
 
     public void addGroup(String name) {
+        addGroup(getFirstFreeId() , name);
 
     }
+
     public void addGroup(int id , String name) {
         groupList.add( new GroupObject(id, name));
         writeJSON();
@@ -160,6 +162,15 @@ public class BatteryGroup implements Serializable {
             }
         }
         return "noGroup";
+    }
+
+    public boolean checkIDUsed(int idIn) {
+        for (GroupObject group : groupList ) {
+            if (group.id == idIn) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<String> getStringList() {

@@ -39,9 +39,7 @@ public class GroupActivity extends AppCompatActivity {
         stuffPack = StuffPacker.getInstance();
 
 
-        groupList = findViewById(R.id.group_list_view);
-        GroupAdapter groupAdapter = new GroupAdapter(GroupActivity.this);
-        groupList.setAdapter(groupAdapter);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.group_floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +50,16 @@ public class GroupActivity extends AppCompatActivity {
                 openDialog();
             }
         });
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        stuffPack = StuffPacker.getInstance();
+
+        groupList = findViewById(R.id.group_list_view);
+        GroupAdapter groupAdapter = new GroupAdapter(GroupActivity.this);
+        groupList.setAdapter(groupAdapter);
 
     }
 

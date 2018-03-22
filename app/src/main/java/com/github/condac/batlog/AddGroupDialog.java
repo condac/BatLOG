@@ -9,10 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * Created by burns on 3/22/18.
- */
 
 public class AddGroupDialog extends AppCompatDialogFragment {
 
@@ -29,7 +27,7 @@ public class AddGroupDialog extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View view = inflater.inflate(R.layout.dialog_group_add, null);
+        final View view = inflater.inflate(R.layout.dialog_group_add, null);
 
         mNameView = view.findViewById(R.id.dialog_add_name);
         mIdView = view.findViewById(R.id.dialog_add_id);
@@ -51,7 +49,13 @@ public class AddGroupDialog extends AppCompatDialogFragment {
                         StuffPacker stuffPacker = StuffPacker.getInstance();
                         int id = Integer.parseInt(mIdView.getText().toString());
                         String name = mNameView.getText().toString();
-                        stuffPacker.batGroup.addGroup(id, name);
+                        if (stuffPacker.batGroup.checkIDUsed(id)) {
+                            Toast.makeText(view.getContext(), "ID already used", Toast.LENGTH_SHORT).show();
+                        }else {
+                            stuffPacker.batGroup.addGroup(id, name);
+                        }
+
+
 
                     }
                 });

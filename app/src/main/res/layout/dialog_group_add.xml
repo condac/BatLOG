@@ -5,14 +5,14 @@
     android:padding="16dp">
 
 
+    <EditText
+        android:id="@+id/dialog_add_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="id"
 
-        <EditText
-            android:id="@+id/dialog_add_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="id"
-
-            android:inputType="number" />
+        android:inputType="number"
+        android:visibility="invisible" />
 
     <EditText
         android:id="@+id/dialog_add_name"

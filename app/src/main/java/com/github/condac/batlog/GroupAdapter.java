@@ -56,7 +56,7 @@ public class GroupAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        Log.d("GroupAdaper", "Loop");
+        //Log.d("GroupAdaper", "Loop");
 
         view = inflter.inflate(R.layout.activity_group_listview, null);
         TextView id = (TextView) view.findViewById(R.id.textView_groupId);
@@ -73,7 +73,7 @@ public class GroupAdapter extends BaseAdapter {
                 Log.d("Button click" , "Edit button in groupview"+id);
                 EditGroupDialog editGroupDialog = new EditGroupDialog();
                 editGroupDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), ""+id);
-                notifyDataSetChanged();
+                //notifyDataSetChanged();
             }
         });
 
@@ -81,7 +81,9 @@ public class GroupAdapter extends BaseAdapter {
         int batIndex = i;//stuffPack.getBatteryIndexById(i+"");
 
         id.setText(stuffPack.batGroup.groupList.get(i).id+"");
+        //notifyDataSetChanged();
         name.setText(stuffPack.batGroup.groupList.get(i).name);
+        //notifyDataSetChanged();
 
         return view;
     }
