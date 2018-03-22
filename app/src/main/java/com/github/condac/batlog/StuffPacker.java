@@ -66,7 +66,7 @@ public class StuffPacker implements Serializable {
             }
         }
 
-        return batteryList.get(0);
+        return null;
 
     }
 
@@ -78,7 +78,7 @@ public class StuffPacker implements Serializable {
             }
         }
 
-        return 0;
+        return -1;
 
     }
 

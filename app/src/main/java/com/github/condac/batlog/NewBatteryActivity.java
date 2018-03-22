@@ -1,17 +1,13 @@
 package com.github.condac.batlog;
 
-import android.Manifest;
+
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
+
 
 
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -134,7 +130,14 @@ public class NewBatteryActivity extends AppCompatActivity  {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                createBattery();
+
+                String id = isNotEmpty(mIdView.getText().toString(), "wrongid");
+                if (!checkIdInUse(id)) {
+                    createBattery();
+                } else {
+
+                }
+
 
             }
         });
@@ -236,17 +239,7 @@ public class NewBatteryActivity extends AppCompatActivity  {
 
     }
 
-    public void deleteExternalStoragePrivateFile(String fileName) {
-        // Get path for the file on external storage.  If external
-        // storage is not currently mounted this will fail.
-        File root = new File(Environment.getExternalStorageDirectory(), "BatLOG");
-        File batteries = new File(root, "Batteries");
-        File idDir = new File(batteries, fileName);
-        File file = new File(idDir, "info.json");
-        if (file != null) {
-            file.delete();
-        }
-    }
+
 
     public boolean hasExternalStoragePrivateFile(String fileName) {
         // Get path for the file on external storage.  If external
@@ -338,6 +331,15 @@ public class NewBatteryActivity extends AppCompatActivity  {
         return 0;
     }
 
+    private boolean checkIdInUse(String idIn) {
+
+        if (stuffPack.getBatteryById(idIn) != null ) {
+            Toast.makeText(getApplicationContext(), "ID is already in use", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
+
     private String isNotEmpty(String inString, String replace) {
         if(inString.equals("")) {
             return replace;
@@ -346,130 +348,6 @@ public class NewBatteryActivity extends AppCompatActivity  {
         }
 
     }
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
-
-
-
-    private static final int REQUESTCODE_STORAGE_PERMISSION = 999999999;
-
-    private static boolean storagePermitted(Activity activity) {
-
-        Boolean readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        Boolean writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-
-        if (readPermission && writePermission) {
-            return true;
-        }
-
-        ActivityCompat.requestPermissions(activity , new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE }, REQUESTCODE_STORAGE_PERMISSION);
-        return false;
-    }
-
-
-
-    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-    public int mkFolder(String folderName){ // make a folder under Environment.DIRECTORY_DCIM
-        String state = Environment.getExternalStorageState();
-        if (!Environment.MEDIA_MOUNTED.equals(state)){
-            Log.d("myAppName", "Error: external storage is unavailable");
-            return 0;
-        }
-        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            Log.d("myAppName", "Error: external storage is read only.");
-            return 0;
-        }
-        Log.d("myAppName", "External storage is not read only or unavailable");
-
-        if (ContextCompat.checkSelfPermission(this, // request permission when it is not granted.
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            Log.d("myAppName", "permission:WRITE_EXTERNAL_STORAGE: NOT granted!");
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                Log.d("myAppName", "strange if case");
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),folderName);
-        int result = 0;
-        if (folder.exists()) {
-            Log.d("myAppName","folder exist:"+folder.toString());
-            result = 2; // folder exist
-        }else{
-            try {
-                if (folder.mkdir()) {
-                    Log.d("myAppName", "folder created:" + folder.toString());
-                    result = 1; // folder created
-                } else {
-                    Log.d("myAppName", "creat folder fails:" + folder.toString());
-                    result = 0; // creat folder fails
-                }
-            }catch (Exception ecp){
-                ecp.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode,
-            String permissions[],
-            int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(NewBatteryActivity.this, "Permission Granted!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(NewBatteryActivity.this, "Permission Denied!", Toast.LENGTH_SHORT).show();
-                }
-        }
-    }
-
-    private void showExplanation(String title,
-                                 String message,
-                                 final String permission,
-                                 final int permissionRequestCode) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        requestPermission(permission, permissionRequestCode);
-                    }
-                });
-        builder.create().show();
-    }
-
-    private void requestPermission(String permissionName, int permissionRequestCode) {
-        ActivityCompat.requestPermissions(this,
-                new String[]{permissionName}, permissionRequestCode);
-    }
-
 
 }
 
