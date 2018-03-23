@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     ListView simpleList;
 
     StuffPacker stuffPack;
+    CustomAdapter customAdapter;
 
     //List<String> batteryList = new ArrayList<String>();
 
@@ -83,8 +84,9 @@ public class MainActivity extends AppCompatActivity
         Log.d("resume", "onressume!!!!!!!!!!!!!!!!!!!!!1");
         stuffPack.createBatteryList();
         simpleList = (ListView) findViewById(R.id.bat_list_view);
-        CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, stuffPack.batteryListStringIndex, stuffPack);
+        customAdapter = new CustomAdapter(MainActivity.this, stuffPack.batteryListStringIndex);
         simpleList.setAdapter(customAdapter);
+
     }
 
     @Override
@@ -101,6 +103,12 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+
+        //menu.add(0, 0, 0, "All Batteries").setShortcut('3', 'c');
+        for (int i=0; i< stuffPack.batGroup.groupList.size(); i++) {
+            menu.add(0, 1+i, 0, stuffPack.batGroup.groupList.get(i).name).setShortcut('3', 'c');
+        }
         return true;
     }
 
@@ -113,6 +121,14 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            customAdapter.filter("0");
+            return true;
+        }
+        if (id == 0) {
+            customAdapter.filter("0");
+            return true;
+        } else if (id>0) {
+            customAdapter.filter(""+id);
             return true;
         }
 
