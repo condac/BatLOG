@@ -53,6 +53,8 @@ public class AddGroupDialog extends AppCompatDialogFragment {
                             Toast.makeText(view.getContext(), "ID already used", Toast.LENGTH_SHORT).show();
                         }else {
                             stuffPacker.batGroup.addGroup(id, name);
+
+
                         }
 
 

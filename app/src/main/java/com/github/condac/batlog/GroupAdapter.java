@@ -73,7 +73,7 @@ public class GroupAdapter extends BaseAdapter {
                 Log.d("Button click" , "Edit button in groupview"+id);
                 EditGroupDialog editGroupDialog = new EditGroupDialog();
                 editGroupDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), ""+id);
-                //notifyDataSetChanged();
+                notifyDataSetChanged();
             }
         });
 

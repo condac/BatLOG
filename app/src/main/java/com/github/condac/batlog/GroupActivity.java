@@ -26,10 +26,13 @@ public class GroupActivity extends AppCompatActivity {
     StuffPacker stuffPack;
     private View mNameView;
     private View mIdView;
+    private EditText mNameViewDialog;
+    private EditText mIdViewDialog;
     private Spinner spinnerGroup;
     List<String> spinnerArray;
     String selectedId;
     private ListView groupList;
+    GroupAdapter groupAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +61,57 @@ public class GroupActivity extends AppCompatActivity {
         stuffPack = StuffPacker.getInstance();
 
         groupList = findViewById(R.id.group_list_view);
-        GroupAdapter groupAdapter = new GroupAdapter(GroupActivity.this);
+        groupAdapter = new GroupAdapter(GroupActivity.this);
         groupList.setAdapter(groupAdapter);
 
     }
 
     private void openDialog() {
-        AddGroupDialog addGroupDialog = new AddGroupDialog();
-        addGroupDialog.show(getSupportFragmentManager(), "kaka dialog");
+        //AddGroupDialog addGroupDialog = new AddGroupDialog();
+        //addGroupDialog.show(getSupportFragmentManager(), "kaka dialog");
+
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(GroupActivity.this);
+
+        LayoutInflater inflater = getLayoutInflater();
+
+        final View view2 = inflater.inflate(R.layout.dialog_group_add, null);
+
+
+        mNameViewDialog = view2.findViewById(R.id.dialog_add_name);
+        mIdViewDialog = view2.findViewById(R.id.dialog_add_id);
+        StuffPacker stuffPacker = StuffPacker.getInstance();
+        mIdViewDialog.setText(""+stuffPacker.batGroup.getFirstFreeId());
+
+        alertDialog.setView(view2)
+                .setTitle("Add new Group")
+                .setNegativeButton("canel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.d("Click dialog: ", "id:"+mIdViewDialog.getText()+" name:"+mNameViewDialog.getText());
+                        StuffPacker stuffPacker = StuffPacker.getInstance();
+                        int id = Integer.parseInt(mIdViewDialog.getText().toString());
+                        String name = mNameViewDialog.getText().toString();
+                        if (stuffPacker.batGroup.checkIDUsed(id)) {
+                            Toast.makeText(view2.getContext(), "ID already used", Toast.LENGTH_SHORT).show();
+                        }else {
+                            stuffPacker.batGroup.addGroup(id, name);
+                            groupAdapter.notifyDataSetChanged();
+
+                        }
+
+
+
+                    }
+                });
+        alertDialog.show();
+
     }
 
 }

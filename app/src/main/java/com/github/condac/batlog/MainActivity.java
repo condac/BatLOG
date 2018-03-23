@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         mkFolder("BatLOG"); // create permissions to read files in external storage
 
@@ -67,6 +66,16 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        stuffPack = StuffPacker.getInstance();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Log.d("resume", "onressume!!!!!!!!!!!!!!!!!!!!!1");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -75,13 +84,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();  // Always call the superclass method first
-        stuffPack = StuffPacker.getInstance();
-        Log.d("resume", "onressume!!!!!!!!!!!!!!!!!!!!!1");
         stuffPack.createBatteryList();
         simpleList = (ListView) findViewById(R.id.bat_list_view);
         customAdapter = new CustomAdapter(MainActivity.this, stuffPack.batteryListStringIndex);
