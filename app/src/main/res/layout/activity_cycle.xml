@@ -34,8 +34,14 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter one of the following fields:"
+                android:text="Press OK to add cycle. Entering extra data is optional."
                 android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/id_cycle_okButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@android:string/ok" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -73,13 +79,20 @@
                     android:layout_height="wrap_content"
                     android:hint="Total capacity (mAh)"
                     android:inputType="number" />
+
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/id_cycle_okButton"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@android:string/ok" />
+                android:layout_height="match_parent">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/id_cycle_resistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Internal Resistance (mOhm)" />
+            </android.support.design.widget.TextInputLayout>
+
         </LinearLayout>
     </ScrollView>
 

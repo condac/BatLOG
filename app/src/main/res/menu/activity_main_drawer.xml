@@ -12,14 +12,6 @@
             android:id="@+id/nav_group"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Battery Groups" />
-        <item
-            android:id="@+id/nav_history"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Battery history" />
-        <item
-            android:id="@+id/nav_edit"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Edit Battery" />
     </group>
 
     <item android:title="Settings">

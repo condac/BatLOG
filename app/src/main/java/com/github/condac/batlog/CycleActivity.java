@@ -14,6 +14,7 @@ public class CycleActivity extends AppCompatActivity {
     private TextView mDischargedView;
     private TextView mCapacityView;
     StuffPacker stuffPack;
+    private TextView mResistanceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,8 @@ public class CycleActivity extends AppCompatActivity {
         mChargedView = (TextView) findViewById(R.id.id_cycle_charged);
         mDischargedView = (TextView) findViewById(R.id.id_cycle_discharge);
         mCapacityView = (TextView) findViewById(R.id.id_cycle_total);
+        mResistanceView = (TextView) findViewById(R.id.id_cycle_resistance);
+
         String id = getIntent().getStringExtra("KEY-ID");
         Log.d("KEY-ID", "banan"+id);
 
@@ -46,11 +49,12 @@ public class CycleActivity extends AppCompatActivity {
                 int batIndex = stuffPack.getBatteryIndexById(id);
 
 
-                String charge = isNotEmpty(mChargedView.getText().toString(), "-");
-                String discharge = isNotEmpty(mDischargedView.getText().toString(), "-");
-                String capacity = isNotEmpty(mCapacityView.getText().toString(), "-");
+                String charge = isNotEmpty(mChargedView.getText().toString(), "0");
+                String discharge = isNotEmpty(mDischargedView.getText().toString(), "0");
+                String capacity = isNotEmpty(mCapacityView.getText().toString(), "0");
+                String resistance = isNotEmpty(mResistanceView.getText().toString(), "0");
 
-                stuffPack.batteryList.get(batIndex).batteryAddCycle(charge, discharge, capacity);
+                stuffPack.batteryList.get(batIndex).batteryAddCycle(charge, discharge, capacity, resistance);
 
                 finish();
             }

@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
@@ -35,6 +37,8 @@ public class Battery implements Serializable {
     private String model = " ";
     private String manufacturer = " ";
     private int cycles = 0;
+
+    List<CsvData> csvData;
 
 
     public Battery(String idString) {
@@ -175,7 +179,85 @@ public class Battery implements Serializable {
 
     }
 
-    public void batteryAddCycle(String charge, String discharge, String capacity) {
+    private void newCsv() {
+        csvData = null;
+        csvData = new ArrayList<>();
+    }
+
+    private int getGoodValue(String[] arrayIn, int index) {
+        int valueOut = 0;
+        if (arrayIn.length>index) {
+            try {
+                valueOut = Integer.parseInt(arrayIn[index]);
+            } catch (Exception e) {
+                //code
+            }
+
+            if (valueOut<0 || valueOut>Integer.MAX_VALUE) {
+                valueOut = 0;
+            }
+        }
+        return valueOut;
+    }
+
+    private void parseCsvLine(String lineIn) {
+        String[] array = lineIn.split(";", -1);
+
+        int cycleNr = getGoodValue(array, 1);
+        long date = getGoodValue(array, 2);
+        int charge = getGoodValue(array, 3);
+        int discharge = getGoodValue(array, 4);
+        int totalCap = getGoodValue(array, 5);
+        int resistance = getGoodValue(array, 6);
+
+        csvData.add(new CsvData(cycleNr, date, charge, discharge, totalCap, resistance));
+    }
+
+    public void readCsvFile() {
+        newCsv();
+        final Gson gson = new Gson();
+        String json = gson.toJson(this);
+
+        Log.d("JSON", json);
+
+        File root = new File(Environment.getExternalStorageDirectory(), "BatLOG");
+        File batteries = new File(root, "Batteries");
+        File idDir = new File(batteries, id);
+        File file = new File(idDir, "info.json");
+        File fileCycles = new File(idDir, "cycles.csv");
+
+        if (fileCycles.exists()) {
+            FileInputStream is;
+            BufferedReader reader;
+            try {
+                is = new FileInputStream(fileCycles);
+                reader = new BufferedReader(new InputStreamReader(is));
+                String line = null;
+
+                line = reader.readLine();
+
+                while (line != null) {
+                    parseCsvLine(line);
+                    line = reader.readLine();
+
+                }
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }else {
+
+        }
+
+
+
+    }
+
+    public void batteryAddCycle(String charge, String discharge, String capacity, String resistance) {
         // Create a path where we will place our private file on external
         // storage.
 
@@ -204,7 +286,7 @@ public class Battery implements Serializable {
             Log.d("BatteryAddCycle", "cycles before:"+cycles);
             cycles++;
 
-            myOutWriter.append("cycle;"+System.currentTimeMillis()+";"+cycles+";"+charge+";"+discharge+";"+capacity+";");
+            myOutWriter.append("cycle;"+System.currentTimeMillis()+";"+cycles+";"+charge+";"+discharge+";"+capacity+";"+resistance+";");
             myOutWriter.append("\n");
 
             myOutWriter.close();
@@ -296,5 +378,45 @@ public class Battery implements Serializable {
     public void setCycles(String cycles) {
 
         this.cycles = Integer.parseInt(cycles);
+    }
+
+    public int getLatestCap() {
+        int capOut = 0;
+        for (int i=0; i< csvData.size();i++) {
+            if (csvData.get(i).totalCap>0) {
+                capOut = csvData.get(i).totalCap;
+            }
+        }
+        return capOut;
+    }
+
+    public int getLatestResistance() {
+        int resOut = 0;
+        for (int i=0; i< csvData.size();i++) {
+            if (csvData.get(i).resistance>0) {
+                resOut = csvData.get(i).resistance;
+            }
+        }
+        return resOut;
+    }
+    public float getTotalUsage() {
+        float total = 0;
+        int count = 0;
+        for (int i=0; i< csvData.size();i++) {
+            if (csvData.get(i).charge>0) {
+                total = total + csvData.get(i).charge;
+                count++;
+            }
+        }
+        if (count > 0) {
+            float avg= total/count;
+            float extra = avg * (this.cycles-count);
+            if (extra>0) {
+                total = total + extra;
+            }
+            total = total / Float.parseFloat(this.mah);
+        }
+
+        return total;
     }
 }

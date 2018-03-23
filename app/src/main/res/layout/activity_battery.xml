@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.github.condac.batlog.BatteryActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/batteryView_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView_groupp"
+                android:textAlignment="viewStart"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/batteryView_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView_name"
+                android:textAlignment="viewStart"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/batteryView_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView_id" />
+
+            <TextView
+                android:id="@+id/batteryView_mah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView_mah" />
+
+            <TextView
+                android:id="@+id/batteryView_volt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView_volt" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/batterybutton_plus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Cycle" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="4"
+            android:padding="4dp"
+            >
+
+            <Button
+                android:id="@+id/batterybutton_edit"
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                tools:layout_editor_absoluteY="91dp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="0dp"
+                android:layout_column="0"
+                android:layout_gravity="right|fill"
+                android:layout_row="1"
+                android:text="Manufacturer"
+                android:textAlignment="textEnd"
+                android:paddingRight="4dp"/>
+
+            <TextView
+                android:id="@+id/batteryView_manu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="1"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="0dp"
+                android:layout_column="0"
+                android:layout_gravity="right|fill"
+                android:layout_row="2"
+                android:text="Model"
+                android:textAlignment="textEnd"
+                android:paddingRight="4dp"/>
+
+            <TextView
+                android:id="@+id/batteryView_model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="2"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="0dp"
+                android:layout_column="0"
+                android:layout_gravity="right|fill"
+                android:layout_row="3"
+                android:text="Date"
+                android:textAlignment="textEnd"
+                android:paddingRight="4dp" />
+
+            <TextView
+                android:id="@+id/batteryView_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="3"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="0dp"
+                android:layout_column="0"
+                android:layout_gravity="right|fill"
+                android:layout_row="4"
+                android:text="Last capacity"
+                android:textAlignment="textEnd"
+                android:paddingRight="4dp" />
+
+            <TextView
+                android:id="@+id/batteryView_lastCap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="4"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="right|fill"
+                android:layout_row="4"
+                android:paddingRight="4dp"
+                android:text="Life left: "
+                android:textAlignment="textEnd" />
+
+            <TextView
+                android:id="@+id/batteryView_capPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="3"
+                android:layout_row="4"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_gravity="right"
+                android:layout_row="5"
+                android:paddingRight="4dp"
+                android:text="Internal resistance:" />
+
+            <TextView
+                android:id="@+id/batteryView_resistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="5"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|fill"
+                android:layout_column="0"
+                android:layout_row="6"
+                android:text="W/h: "
+                android:textAlignment="textEnd" />
+
+            <TextView
+                android:id="@+id/batteryView_wh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="6"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_gravity="right"
+                android:layout_row="7"
+                android:text="Cycles:" />
+
+            <TextView
+                android:id="@+id/batteryView_cycles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="7"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_row="7"
+                android:text="Est Cycles" />
+
+            <TextView
+                android:id="@+id/batteryView_cyclesEst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="3"
+                android:layout_row="7"
+                android:text="TextView" />
+        </GridLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -72,7 +72,7 @@ public class CustomAdapter extends BaseAdapter {
                 view = inflter.inflate(R.layout.activity_listview, null);
                 // click handling code
 
-                Intent intent = new Intent(context, CycleActivity.class);
+                Intent intent = new Intent(context, BatteryActivity.class);
                 intent.putExtra("KEY-ID", batteryList.get(i ));
                 intent.putExtra("stuffpack", stuffPack);
                 context.startActivity(intent);

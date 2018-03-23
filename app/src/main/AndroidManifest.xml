@@ -27,7 +27,8 @@
         <activity android:name=".activity_listview" />
         <activity android:name=".CycleActivity" />
         <activity android:name=".GroupActivity" />
-        <activity android:name=".EditBatActivity"></activity>
+        <activity android:name=".EditBatActivity" />
+        <activity android:name=".BatteryActivity"></activity>
     </application>
 
 </manifest>

@@ -127,19 +127,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_edit) {
-            Intent intent = new Intent(MainActivity.this, EditBatActivity.class);
-            intent.putExtra("stuffpack", stuffPack);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_group) {
+        }  else if (id == R.id.nav_group) {
             Intent intent = new Intent(MainActivity.this, GroupActivity.class);
 
             startActivity(intent);
 
-        } else if (id == R.id.nav_history) {
-
-        } else if (id == R.id.nav_location) {
+        }  else if (id == R.id.nav_location) {
 
         }
 
