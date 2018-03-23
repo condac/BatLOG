@@ -34,7 +34,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Press OK to add cycle. Entering extra data is optional."
+                android:text="If you have charged the battery and don't have any extra data just hit OK."
                 android:textSize="18sp" />
 
             <Button
@@ -42,6 +42,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@android:string/ok" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="If your charger shows how many mah it have charged the battery with enter it here:" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -56,18 +63,12 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <TextView
+                android:id="@+id/textView9"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/id_cycle_discharge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Discharged (mAh)"
-                    android:inputType="number" />
-
-            </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="If you have discharged a full battery and calculated the total capacity enter it here:" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -81,6 +82,12 @@
                     android:inputType="number" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="If your charger shows you the internal resistance you can enter it here:" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

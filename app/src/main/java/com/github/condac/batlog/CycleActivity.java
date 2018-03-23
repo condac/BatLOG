@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class CycleActivity extends AppCompatActivity {
     private TextView mNameView;
     private TextView mChargedView;
-    private TextView mDischargedView;
+    //private TextView mDischargedView;
     private TextView mCapacityView;
     StuffPacker stuffPack;
     private TextView mResistanceView;
@@ -26,7 +26,7 @@ public class CycleActivity extends AppCompatActivity {
 
         mNameView = (TextView) findViewById(R.id.id_cycle_name);
         mChargedView = (TextView) findViewById(R.id.id_cycle_charged);
-        mDischargedView = (TextView) findViewById(R.id.id_cycle_discharge);
+        //mDischargedView = (TextView) findViewById(R.id.id_cycle_discharge);
         mCapacityView = (TextView) findViewById(R.id.id_cycle_total);
         mResistanceView = (TextView) findViewById(R.id.id_cycle_resistance);
 
@@ -50,7 +50,7 @@ public class CycleActivity extends AppCompatActivity {
 
 
                 String charge = isNotEmpty(mChargedView.getText().toString(), "0");
-                String discharge = isNotEmpty(mDischargedView.getText().toString(), "0");
+                String discharge = "0";
                 String capacity = isNotEmpty(mCapacityView.getText().toString(), "0");
                 String resistance = isNotEmpty(mResistanceView.getText().toString(), "0");
 

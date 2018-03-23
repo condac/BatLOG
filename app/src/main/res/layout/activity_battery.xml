@@ -80,37 +80,39 @@
 
             <Button
                 android:id="@+id/batterybutton_edit"
-                android:layout_width="106dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"
-                tools:layout_editor_absoluteY="91dp" />
+                android:layout_column="0"
+                android:layout_row="0"
+                android:text="Edit" />
 
             <TextView
                 android:id="@+id/textView8"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:layout_column="0"
-                android:layout_gravity="right|fill"
                 android:layout_row="1"
                 android:text="Manufacturer"
-                android:textAlignment="textEnd"
                 android:paddingRight="4dp"/>
 
             <TextView
                 android:id="@+id/batteryView_manu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:layout_column="1"
                 android:layout_row="1"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/textView10"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:layout_column="0"
-                android:layout_gravity="right|fill"
                 android:layout_row="2"
                 android:text="Model"
-                android:textAlignment="textEnd"
                 android:paddingRight="4dp"/>
 
             <TextView
@@ -123,12 +125,12 @@
 
             <TextView
                 android:id="@+id/textView12"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:layout_column="0"
-                android:layout_gravity="right|fill"
                 android:layout_row="3"
                 android:text="Date"
-                android:textAlignment="textEnd"
                 android:paddingRight="4dp" />
 
             <TextView
@@ -141,12 +143,12 @@
 
             <TextView
                 android:id="@+id/textView14"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:layout_column="0"
-                android:layout_gravity="right|fill"
                 android:layout_row="4"
                 android:text="Last capacity"
-                android:textAlignment="textEnd"
                 android:paddingRight="4dp" />
 
             <TextView
@@ -161,11 +163,10 @@
                 android:id="@+id/textView16"
                 android:layout_width="wrap_content"
                 android:layout_column="2"
-                android:layout_gravity="right|fill"
+                android:layout_gravity="right"
                 android:layout_row="4"
                 android:paddingRight="4dp"
-                android:text="Life left: "
-                android:textAlignment="textEnd" />
+                android:text="Life left: " />
 
             <TextView
                 android:id="@+id/batteryView_capPercent"
@@ -197,11 +198,10 @@
                 android:id="@+id/textView20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|fill"
+                android:layout_gravity="right"
                 android:layout_column="0"
                 android:layout_row="6"
-                android:text="W/h: "
-                android:textAlignment="textEnd" />
+                android:text="W/h: " />
 
             <TextView
                 android:id="@+id/batteryView_wh"
