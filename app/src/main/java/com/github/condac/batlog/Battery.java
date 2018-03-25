@@ -199,6 +199,21 @@ public class Battery implements Serializable {
         }
         return valueOut;
     }
+    private float getGoodValueFloat(String[] arrayIn, int index) {
+        float valueOut = 0;
+        if (arrayIn.length>index) {
+            try {
+                valueOut = Float.parseFloat(arrayIn[index]);
+            } catch (Exception e) {
+                //code
+            }
+
+            if (valueOut<0 || valueOut>Integer.MAX_VALUE) {
+                valueOut = 0;
+            }
+        }
+        return valueOut;
+    }
 
     private void parseCsvLine(String lineIn) {
         String[] array = lineIn.split(";", -1);
@@ -208,7 +223,7 @@ public class Battery implements Serializable {
         int charge = getGoodValue(array, 3);
         int discharge = getGoodValue(array, 4);
         int totalCap = getGoodValue(array, 5);
-        int resistance = getGoodValue(array, 6);
+        float resistance = getGoodValueFloat(array, 6);
 
         csvData.add(new CsvData(cycleNr, date, charge, discharge, totalCap, resistance));
     }
@@ -390,8 +405,8 @@ public class Battery implements Serializable {
         return capOut;
     }
 
-    public int getLatestResistance() {
-        int resOut = 0;
+    public float getLatestResistance() {
+        float resOut = 0;
         for (int i=0; i< csvData.size();i++) {
             if (csvData.get(i).resistance>0) {
                 resOut = csvData.get(i).resistance;

@@ -97,7 +97,8 @@
                     android:id="@+id/id_cycle_resistance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Internal Resistance (mOhm)" />
+                    android:hint="Internal Resistance (mOhm)"
+                    android:inputType="numberDecimal" />
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>

@@ -11,9 +11,9 @@ public class CsvData {
     public int charge;
     public int discharge;
     public int totalCap;
-    public int resistance;
+    public float resistance;
 
-    public CsvData(int cycleNr, long date, int charge, int discharge, int totalCap, int resistance) {
+    public CsvData(int cycleNr, long date, int charge, int discharge, int totalCap, float resistance) {
         this.cycleNr = cycleNr;
         this.date = date;
         this.charge = charge;

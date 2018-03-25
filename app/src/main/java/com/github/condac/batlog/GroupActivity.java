@@ -67,9 +67,6 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     private void openDialog() {
-        //AddGroupDialog addGroupDialog = new AddGroupDialog();
-        //addGroupDialog.show(getSupportFragmentManager(), "kaka dialog");
-
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(GroupActivity.this);
 
